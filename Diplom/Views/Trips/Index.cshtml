@@ -1,0 +1,112 @@
+﻿@model IEnumerable<Diplom.Models.Trip>
+@{
+    ViewData["Title"] = "Список поездок";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (User.IsInRole("admin"))
+{
+    <p>
+        <a asp-action="Create" class="btn btn-success">Добавить новую поездку</a>
+    </p>
+}
+<table class="table table-striped table-hover table-responsive">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Дата выезда</th>
+            <th>Дата приезда</th>
+            <th>Бюджет</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.StartDate.ToString("dd.MM.yyyy")</td>
+                <td>@item.EndDate.ToString("dd.MM.yyyy")</td>
+                <td>@item.Budget.ToString("C")</td>
+                <td>
+                    @if (User.IsInRole("admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
+ 
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                    }
+                   
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a> 
+                    
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        Нет доступных поездок. Создайте первую поездку.
+    </div>
+}
+
+<!-- Визуализация -->
+<h2>Поездки</h2>
+<div>
+    <canvas style="max-width: 450px; max-height: 450px;" id="myChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ctx = document.getElementById('myChart');
+
+        // Получаем данные из модели Razor
+        const trips = @Html.Raw(Json.Serialize(Model));
+
+        const labels = trips.map(trip => trip.name);
+        const budgets = trips.map(trip => trip.budget);
+
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Бюджет поездок',
+                    data: budgets,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                        'rgba(75, 192, 192, 0.7)',
+                        'rgba(153, 102, 255, 0.7)',
+                        'rgba(255, 159, 64, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Бюджет поездок'
+                    }
+                }
+            }
+        });
+    });
+</script>

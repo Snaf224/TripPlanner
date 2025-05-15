@@ -1,0 +1,28 @@
+﻿@model Diplom.Models.TripMember
+
+@{
+    ViewData["Title"] = "Удаление участника поездки";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<div class="alert alert-warning">
+    <h4>Вы уверены, что хотите удалить этого участника?</h4>
+</div>
+
+<div class="mb-4">
+    <dl class="row">
+        <dt class="col-sm-3">Имя:</dt>
+        <dd class="col-sm-9">@Model.Name</dd>
+
+        <dt class="col-sm-3">Вклад:</dt>
+        <dd class="col-sm-9">@Model.Contribution.ToString("C")</dd>
+    </dl>
+</div>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+    <input type="submit" value="Удалить" class="btn btn-danger" /> |
+    <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+</form>

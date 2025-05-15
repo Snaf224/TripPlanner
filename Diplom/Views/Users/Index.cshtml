@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Diplom.Models.ApplicationUser>
+@using Diplom.Extensions;
+
+<h2>Список пользователей</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Имя пользователя</th>
+            <th>Телефон</th>
+            <th>Пол</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>@user.UserName</td>
+                <td>@user.PhoneNumber</td>
+                <td>@user.GetLocalizedGender()</td>
+            </tr>
+        }
+    </tbody>
+</table>

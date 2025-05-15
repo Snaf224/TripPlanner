@@ -1,0 +1,36 @@
+﻿@model Diplom.Models.Trip
+
+@{
+    ViewData["Title"] = "Удаление поездки";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<div class="alert alert-warning">
+    <h4>Вы уверены, что хотите удалить эту поездку?</h4>
+</div>
+
+<div class="mb-4">
+    <dl class="row">
+        <dt class="col-sm-3">Название:</dt>
+        <dd class="col-sm-9">@Model.Name</dd>
+
+        <dt class="col-sm-3">Дата поездки:</dt>
+        <dd class="col-sm-9">@Model.StartDate.ToString("dd.MM.yyyy")</dd>
+
+        <dt class="col-sm-3">Дата окончания:</dt>
+        <dd class="col-sm-9">@Model.EndDate.ToString("dd.MM.yyyy")</dd>
+
+        <dt class="col-sm-3">Бюджет:</dt>
+        <dd class="col-sm-9">@Model.Budget.ToString("C")</dd>
+    </dl>
+</div>
+
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Удалить" class="btn btn-danger" /> |
+        <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>

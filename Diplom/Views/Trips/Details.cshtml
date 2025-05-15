@@ -1,0 +1,36 @@
+﻿@model Diplom.Models.Trip
+
+@{
+    ViewData["Title"] = "Детали поездки";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<div class="card">
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Название:</dt>
+            <dd class="col-sm-9">@Model.Name</dd>
+
+            <dt class="col-sm-3">Дата поездки:</dt>
+            <dd class="col-sm-9">@Model.StartDate.ToString("dd.MM.yyyy")</dd>
+
+            <dt class="col-sm-3">Дата окончания:</dt>
+            <dd class="col-sm-9">@Model.EndDate.ToString("dd.MM.yyyy")</dd>
+
+            <dt class="col-sm-3">Бюджет:</dt>
+            <dd class="col-sm-9">@Model.Budget.ToString("C")</dd>
+        </dl>
+    </div>
+</div>
+
+<div>
+    @* @if (User.IsInRole("admin"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>
+    } *@
+    <div class="mt-3">
+        <a asp-action="Index" class="btn btn-secondary">Назад к списку</a>
+    </div>
+</div>

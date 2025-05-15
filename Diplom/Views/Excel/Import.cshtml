@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Загрузка файла Excel";
+}
+
+<h2>Загрузка Excel файла</h2>
+
+<form method="post" enctype="multipart/form-data" asp-controller="ImportExcel" asp-action="Index">
+    <div class="form-group">
+        <label>Укажите файл Excel для импорта:</label>
+        <input type="file" name="file" class="form-control" accept=".xlsx" />
+    </div>
+    <div class="mt-3">
+        <button type="submit" class="btn btn-primary">Импортировать</button>
+    </div>
+</form>
+
+@if (ViewData["IsLoading"] != null && (bool)ViewData["IsLoading"])
+{
+    <p>Загрузка...</p>
+}
+else
+{
+    <ul>
+        <li>Количество импортированных поездок: @(ViewData["TripList"] != null ? ((List<Diplom.Models.Trip>)ViewData["TripList"]).Count() : 0)</li>
+        <li>Количество импортированных участников: @(ViewData["TripMemberList"] != null ? ((List<Diplom.Models.TripMember>)ViewData["TripMemberList"]).Count() : 0)</li>
+        <li>Количество импортированных расходов: @(ViewData["ExpenseList"] != null ? ((List<Diplom.Models.Expense>)ViewData["ExpenseList"]).Count() : 0)</li>
+        <li>Количество импортированных уведомлений: @(ViewData["NotificationList"] != null ? ((List<Diplom.Models.Notification>)ViewData["NotificationList"]).Count() : 0)</li>
+        <li>Количество импортированных задач: @(ViewData["TravelTaskList"] != null ? ((List<Diplom.Models.TravelTask>)ViewData["TravelTaskList"]).Count() : 0)</li>
+
+        @if (ViewData["StartTime"] != null)
+        {
+            var ts = ((DateTime?)ViewData["EndTime"] ?? DateTime.Now).Subtract((DateTime?)ViewData["StartTime"] ?? DateTime.Now);
+            <li>Время выполнения: @String.Format("{0:00}:{1:00}", ts.Seconds, ts.Milliseconds / 10)</li>
+        }
+    </ul>
+}
+
+@if (!string.IsNullOrEmpty(ViewData["ErrorMessage"]?.ToString()))
+{
+    <div class="alert alert-danger">
+        Ошибка: @ViewData["ErrorMessage"]
+    </div>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

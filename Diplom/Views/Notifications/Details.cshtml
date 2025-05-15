@@ -1,0 +1,32 @@
+﻿@model Diplom.Models.Notification
+
+@{
+    ViewData["Title"] = "Детали уведомления";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<div class="card">
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Сообщение:</dt>
+            <dd class="col-sm-9">@Model.Message</dd>
+
+            <dt class="col-sm-3">Дата отправки:</dt>
+            <dd class="col-sm-9">@Model.SendDate.ToString("dd.MM.yyyy ")</dd>
+
+            <dt class="col-sm-3">Прочитано:</dt>
+            <dd class="col-sm-9">
+                <div class="form-group">
+                    <input type="checkbox" asp-for="IsRead" class="form-check-input" disabled />
+                    <span asp-validation-for="IsRead" class="text-danger"></span>
+                </div>
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<div class="mt-3">
+    <a asp-action="Index" class="btn btn-secondary">Назад к списку</a>
+</div>

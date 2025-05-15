@@ -1,0 +1,36 @@
+﻿@model Diplom.Models.Notification
+
+@{
+    ViewData["Title"] = "Удаление уведомления";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<div class="alert alert-warning">
+    <h4>Вы уверены, что хотите удалить это уведомление?</h4>
+</div>
+
+<div class="mb-4">
+    <dl class="row">
+        <dt class="col-sm-3">Сообщение:</dt>
+        <dd class="col-sm-9">@Model.Message</dd>
+
+        <dt class="col-sm-3">Дата отправки:</dt>
+        <dd class="col-sm-9">@Model.SendDate.ToString("dd.MM.yyyy")</dd>
+
+        <dt class="col-sm-3">Прочитано:</dt>
+        <dd class="col-sm-9">
+            <div class="form-group">
+                <input type="checkbox" asp-for="IsRead" class="form-check-input" disabled />
+                <span asp-validation-for="IsRead" class="text-danger"></span>
+            </div>
+        </dd>
+    </dl>
+</div>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+    <input type="submit" value="Удалить" class="btn btn-danger" />
+    <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+</form>

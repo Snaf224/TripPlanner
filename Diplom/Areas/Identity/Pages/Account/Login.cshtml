@@ -1,0 +1,151 @@
+﻿@page
+@model LoginModel
+@{
+    ViewData["Title"] = "Войти";
+}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+
+        .login-page-background {
+            background-image: url('https://via.placeholder.com/1500x1000'); /* Замените на свой фон */
+            background-size: cover;
+            background-position: center;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+            .login-container h1 {
+                color: #007bff;
+                font-size: 36px;
+                font-weight: bold;
+
+            }
+
+            .login-container h3 {
+                color: #333;
+            }
+
+        .form-control, .btn {
+            margin-bottom: 15px;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        .form-floating input,
+        .form-floating label {
+            font-size: 1rem;
+        }
+
+        .text-white {
+            color: white;
+        }
+
+        .social-login-buttons {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-page-background">
+        <div class="login-container">
+            <!-- Название проекта -->
+            <h1>TripPlanner</h1>
+
+            <!-- Приветственный блок -->
+            <div class="text-center text-white mb-4">
+                <p class="lead">Войдите, чтобы начать планировать своё следующее приключение.</p>
+            </div>
+
+            <!-- Основной контейнер -->
+            <div class="card shadow-lg border-0 rounded-3 mt-3">
+                <div class="card-body p-4">
+                    <form id="account" method="post">
+                        <h3 class="card-title mb-4 text-center text-success">Вход в личный кабинет</h3>
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Input.Email" class="form-control" autocomplete="username" placeholder="name@example.com" />
+                            <label asp-for="Input.Email">Email</label>
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Input.Password" class="form-control" autocomplete="current-password" placeholder="Password" />
+                            <label asp-for="Input.Password">Пароль</label>
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-check mb-3 d-flex align-items-center">
+                            <input class="form-check-input" asp-for="Input.RememberMe" id="rememberMe" />
+                            <label class="form-check-label ms-2" for="rememberMe">
+                                Запомнить меня
+                            </label>
+                        </div>
+
+
+                        <div class="d-grid mb-3">
+                            <button id="login-submit" type="submit" class="btn btn-success btn-lg">Войти</button>
+                        </div>
+
+                        <div class="text-center">
+                            <p><a id="forgot-password" asp-page="./ForgotPassword">Забыли пароль?</a></p>
+                            <p><a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Регистрация нового путешественника</a></p>
+                            <p><a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Отправить подтверждение по почте</a></p>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+            <!-- Вход через соцсети -->
+            @if ((Model.ExternalLogins?.Count ?? 0) > 0)
+            {
+                <div class="social-login-buttons text-center mt-4">
+                    <h5 class="text-white">Или войдите через соцсети</h5>
+                    <hr class="bg-white" />
+                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                        @foreach (var provider in Model.ExternalLogins!)
+                        {
+                            <button type="submit" class="btn btn-outline-light m-1" name="provider" value="@provider.Name" title="Войти через @provider.DisplayName">
+                                @provider.DisplayName
+                            </button>
+                        }
+                    </form>
+                </div>
+            }
+        </div>
+    </div>
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
+
+</body>
+</html>  

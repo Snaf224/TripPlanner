@@ -1,0 +1,125 @@
+﻿@{
+    ViewData["Title"] = "Загрузка фотографии";
+    var avatarPath = ViewBag.AvatarPath as string ?? "/media/default_avatar.png";
+}
+
+<h2>Загрузка фотографии</h2>
+
+<!-- Форма загрузки фото -->
+<form asp-controller="Upload" asp-action="UploadPhoto" method="post" enctype="multipart/form-data">
+    <div class="form-group mb-3">
+        <label for="photo">Выберите файл:</label>
+        <input type="file" name="photo" accept=".jpeg,.jpg,.png" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Загрузить фотографию</button>
+</form>
+
+<!-- Форма очистки фото -->
+<form asp-controller="Upload" asp-action="ClearPhoto" method="post" class="mt-2" id="clearPhotoForm">
+    <button type="submit" class="btn btn-danger">Очистить фотографию</button>
+</form>
+
+<!-- Отображение текущей фотографии с лупой -->
+<div class="form-group mb-3 mt-4">
+    <label>Текущая фотография:</label><br />
+    <div class="photo-container">
+        <img src="@avatarPath" alt="Фотография пользователя" width="240" height="240" class="img-thumbnail" id="avatarImage" />
+        <div class="zoom-icon" id="zoomIcon" onclick="zoomImage()" style="display: none;">
+            🔍
+        </div>
+    </div>
+</div>
+
+<!-- Информация о пользователе -->
+<div class="form-group mt-4">
+    <h4>Информация о пользователе</h4>
+    <ul class="list-group">
+        <li class="list-group-item"><strong>Email:</strong> @ViewBag?.Email</li>
+        <li class="list-group-item"><strong>Номер телефона:</strong> @ViewBag?.PhoneNumber</li>
+        <li class="list-group-item"><strong>Пол:</strong> @ViewBag?.Gender</li>
+    </ul>
+</div>
+
+<br />
+<a href="/Identity/Account/Manage">Перейти в расширенные настройки</a>
+
+<!-- Стиль для лупы и увеличенной картинки -->
+<style>
+    .photo-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .zoom-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 24px;
+        cursor: pointer;
+        color: rgba(255, 255, 255, 0.7); /* Цвет белый с прозрачностью */
+        background: rgba(0, 0, 0, 0.3); /* Темный полупрозрачный фон */
+        padding: 5px;
+        border-radius: 50%;
+        pointer-events: auto;
+    }
+
+    .zoomed-image {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+        .zoomed-image img {
+            max-width: 90%;
+            max-height: 90%;
+        }
+</style>
+
+<!-- Скрипт для увеличения изображения -->
+<script>
+    function updateZoomIconVisibility() {
+        const avatarPath = document.getElementById("avatarImage").src;
+        const zoomIcon = document.getElementById("zoomIcon");
+
+        // Проверяем, содержит ли путь к изображению "default_avatar.png"
+        if (avatarPath && !avatarPath.includes("default_avatar.png")) {
+            zoomIcon.style.display = "block";
+        } else {
+            zoomIcon.style.display = "none";
+        }
+    }
+
+    function zoomImage() {
+        const imageSrc = document.getElementById("avatarImage").src;
+        const zoomedImageDiv = document.createElement("div");
+        zoomedImageDiv.classList.add("zoomed-image");
+
+        const zoomedImage = document.createElement("img");
+        zoomedImage.src = imageSrc;
+
+        zoomedImageDiv.appendChild(zoomedImage);
+
+        zoomedImageDiv.onclick = function () {
+            zoomedImageDiv.remove();
+        }
+
+        document.body.appendChild(zoomedImageDiv);
+    }
+
+    window.onload = updateZoomIconVisibility;
+
+    document.getElementById("clearPhotoForm").onsubmit = function (event) {
+        event.preventDefault();
+        document.getElementById("avatarImage").src = "/media/default_avatar.png";
+        updateZoomIconVisibility();
+        this.submit();
+    };
+</script>

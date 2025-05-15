@@ -1,0 +1,49 @@
+﻿@model Diplom.Models.TravelTask
+
+@{
+    ViewData["Title"] = "Добавление новой задачи";
+}
+
+<div class="card shadow">
+    <div class="card-header">
+        <h3>@ViewData["Title"]</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label">Описание задачи</label>
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="IsCompleted" class="control-label">Выполнена?</label>
+                        <input asp-for="IsCompleted" type="checkbox" class="form-check-input" />
+                        <span asp-validation-for="IsCompleted" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="CompletionDate" class="control-label">Дата завершения</label>
+                        <input asp-for="CompletionDate" type="date" class="form-control" />
+                        <span asp-validation-for="CompletionDate" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <input type="submit" value="Создать" class="btn btn-primary" />
+                        <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,11 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Экспорт данных в Excel";
+}
+
+<h2>Экспорт данных</h2>
+<p>Нажмите кнопку ниже, чтобы скачать данные в формате Excel.</p>
+
+<a asp-controller="ExcelExport" asp-action="Download" class="btn btn-success">
+    Скачать Excel-файл
+</a>

@@ -1,0 +1,30 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Diplom.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="text-center">
+        <h1 class="display-4" style="color: #28a745; font-family: 'Poppins', sans-serif;">Добро пожаловать в TripPlanner!</h1>
+        <p style="color: #333; font-family: 'Lora', serif; font-size: 1.2rem;">Начните планировать ваше следующее приключение с нами. Путешествуйте, открывайте новые места и создавайте незабываемые моменты. Легко и удобно – ваш идеальный план путешествий всего в нескольких кликах!</p>
+        <p style="color: #333; font-family: 'Lora', serif; font-size: 1.1rem;">Мы поможем вам организовать поездки, подобрать лучшие маршруты и создать незабываемые воспоминания. Присоединяйтесь к нам и откройте мир!</p>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <h1 class="display-4" style="color: #28a745; font-family: 'Poppins', sans-serif;">Добро пожаловать в TripPlanner!</h1>
+        <p style="color: #333; font-family: 'Lora', serif; font-size: 1.2rem;">Для доступа к полным возможностям нашего сервиса, пожалуйста, авторизуйтесь.</p>
+        <p style="color: #333; font-family: 'Lora', serif; font-size: 1.1rem;">Присоединяйтесь к нам, чтобы начать планировать свои поездки и открывать новые горизонты!</p>
+    </div>
+}

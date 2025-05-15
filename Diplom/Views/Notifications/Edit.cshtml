@@ -1,0 +1,43 @@
+﻿@model Diplom.Models.Notification
+
+@{
+    ViewData["Title"] = "Редактирование уведомления";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+
+            <div class="mb-3">
+                <label asp-for="Message" class="control-label">Сообщение</label>
+                <input asp-for="Message" class="form-control" />
+                <span asp-validation-for="Message" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="SendDate" class="control-label">Дата отправки</label>
+                <input asp-for="SendDate" type="date" class="form-control" />
+                <span asp-validation-for="SendDate" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="IsRead" class="form-label">Прочитано</label>
+                <select asp-for="IsRead" class="form-control">
+                    <option value="true">Да</option>
+                    <option value="false">Нет</option>
+                </select>
+                <span asp-validation-for="IsRead" class="text-danger"></span>
+            </div>
+
+            <div class="mt-4">
+                <input type="submit" value="Сохранить" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+﻿@model Diplom.Models.TravelTask
+
+@{
+    ViewData["Title"] = "Удаление задачи";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<div class="alert alert-warning">
+    <h4>Вы уверены, что хотите удалить эту задачу?</h4>
+</div>
+
+<div class="mb-4">
+    <dl class="row">
+        <dt class="col-sm-3">Описание:</dt>
+        <dd class="col-sm-9">@Model.Description</dd>
+
+        <dt class="col-sm-3">Завершена:</dt>
+        <dd class="col-sm-9">
+            <div class="form-group">
+                <input type="checkbox" asp-for="IsCompleted" class="form-check-input" disabled />
+                <span asp-validation-for="IsCompleted" class="text-danger"></span>
+            </div>
+        </dd>
+
+        <dt class="col-sm-3">Дата завершения:</dt>
+        <dd class="col-sm-9">@Model.CompletionDate?.ToString("dd.MM.yyyy")</dd>
+    </dl>
+</div>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+    <input type="submit" value="Удалить" class="btn btn-danger" /> |
+    <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+</form>
